@@ -7,8 +7,7 @@ public class Test {
      /*   B test2 = new C();
         test2.xyz(5,"G");*/
        C test3 = new D();
-        System.out.println(test3.getClass());
-        System.out.println(test3.toString());
+
      //   test3.a_i = 12; не получится т.к. в интерфейсе все поля final
       //  ((D)test3).ddd();
        // test3.def();
@@ -21,6 +20,13 @@ public class Test {
         String b =  "Another String";
 
                 System.out.println(a.equals(b) + a==b);
+                int a1= 5;
+                        int b1 =8;
+        System.out.println(a1 + " и " +b1);
+        a1= b1-a1;
+        b1=b1-a1;
+        a1=a1+b1;
+        System.out.println(a1 + " и " +b1);
     }
 }
 interface A{
@@ -30,7 +36,11 @@ interface A{
         System.out.println("Дефолтный метод интерфейса А");
     }
      static void aaa(){
+        privant();
         System.out.println("Статический метод интерфейса А"); //не может быть overloaded or overroded
+    }
+    private static void privant(){
+        System.out.println("Это приватный метод интерфейса");
     }
 }
 abstract class B{

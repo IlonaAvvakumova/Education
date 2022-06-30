@@ -1,4 +1,4 @@
-package src.main.java.com.IlonaA.javacore.Games;
+package src.main.java.com.IlonaA.javacore.myGames;
 
 import java.util.Scanner;
 /*	Создать консольное приложение - эмулятор игры “Камень-Ножницы-Бумага”. Забронировать код на code rewie .
