@@ -13,14 +13,30 @@ package src.main.java.com.IlonaA.javacore.Case.module_1;
 
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class caseTwo {
     public static void main(String[] args) {
-        int array[] = {4, 5, 6, 8, 7, 7};
+        int array[] = {4, 5, 6, 8, 7,4};
 
         System.out.println(dubl(array));
     }
 
+static boolean dubl(int array[]){
+        TreeSet<Integer> result = new TreeSet<>();
+    for (int a:array
+         ) {
+        if(result.contains(a)){
+            return true;
+        }
+        result.add(a);
+
+    }
+return false;
+}
+}
+
+/*
     static boolean dubl(int array[]) {
 
         for (int i = 0; i < array.length - 1; i++) {
@@ -29,6 +45,4 @@ public class caseTwo {
         }
         return false;
 
-    }
-}
-
+    }*/

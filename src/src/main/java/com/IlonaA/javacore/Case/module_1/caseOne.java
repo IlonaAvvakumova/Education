@@ -11,23 +11,37 @@ package src.main.java.com.IlonaA.javacore.Case.module_1;
         Т.е. индексы 1 и 2 (значение 8 и 15) в сумме дают искомое число 23*/
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 
 public class caseOne {
+
     public static void main(String[] args) {
         int array[] = {3, 8, 15, 17};
-        search(array, 23);
+        //search(array, 23);
+        System.out.println(search(array, 23));
     }
 
-    static void search(int array[], int number) {
-        ArrayList<Integer> result = new ArrayList<>();
+    static HashMap search(int array[], int number) {
+        HashMap<Integer, Integer> result = new HashMap();
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array.length; j++) {
-                if (array[i] + array[j] == number)
-                    result.add(i);
+                if (array[i] + array[j] == number){
+                    result.put(i, array[i]);
+                }
             }
+
         }
-        System.out.println(result);
+
+        return result;
     }
+
 }
+
+ /*   ArrayList<Integer> result = new ArrayList<>();
+        for (int i = 0; i < array.length; i++) {
+        for (int j = 0; j < array.length; j++) {
+        if (array[i] + array[j] == number)
+        result.add(i);
+        }
+        }
+        System.out.println(result);*/
