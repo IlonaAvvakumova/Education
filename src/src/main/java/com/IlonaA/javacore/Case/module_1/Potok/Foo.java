@@ -13,55 +13,43 @@ public class Foo {
         Вывод: "firstsecondthird"
         Мы не знаем, в каком порядке будут вызваны методы, но должны гарантировать порядок.*/
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Foo {
     private int bul = 0;
-    public synchronized void first(Runnable r) throws InterruptedException {
+    private Lock lock= new ReentrantLock();
+    public  void first(Runnable r) {
         while (bul!=0)
-            wait();
+            lock.unlock();
         System.out.print("first");
+        lock.lock();
         bul = 1;
-        notifyAll();
-
     }
-    public synchronized void second(Runnable r) throws InterruptedException {
+    public  void second(Runnable r)  {
        while (bul!=1)
-           wait();
+           lock.unlock();
         System.out.print("second");
+        lock.lock();
         bul =2;
-        notifyAll();
     }
-    public  synchronized void third(Runnable r) throws InterruptedException {
+    public   void third(Runnable r)  {
 while (bul!=2)
-    wait();
+    lock.unlock();
          System.out.print("third");
-        notifyAll();
+        lock.lock();
     }
 }
-
 class V{
     public static void main(String[] args) throws InterruptedException {
         Foo foo = new Foo(); // объект
-        Thread A = new Thread(() -> {
-            try {
-                foo.first(new Thread());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        Thread B = new Thread(() -> {
-            try {
-                foo.second(new Thread());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        Thread C = new Thread(() -> {
-            try {
-                foo.third(new Thread());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
+        Thread A = new Thread();
+               foo.first(A);
+        Thread B = new Thread();
+        foo.second(B);
+
+        Thread C = new Thread();
+        foo.third(C);
 
         C.start();
         B.start();
