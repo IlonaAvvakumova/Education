@@ -19,9 +19,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Foo {
-   int bul = 0;
+    int bul = 0;
     Lock lock = new ReentrantLock();
-   // Condition condition = lock.newCondition();
     Condition condition2 = lock.newCondition();
     Condition condition3 = lock.newCondition();
 
@@ -29,7 +28,7 @@ public class Foo {
         try {
             lock.lock();
             System.out.print("first");
-            bul=1;
+            bul = 1;
         } finally {
             condition2.signal();
             lock.unlock();
@@ -39,8 +38,9 @@ public class Foo {
     public void second(Runnable r) throws InterruptedException {
         try {
             lock.lock();
-            while (bul!=1){
-            condition2.await();}
+            while (bul != 1) {
+                condition2.await();
+            }
             System.out.print("second");
             bul = 2;
         } finally {
@@ -52,23 +52,19 @@ public class Foo {
     public void third(Runnable r) throws InterruptedException {
         try {
             lock.lock();
-            while (bul!=2){
-            condition3.await();}
+            while (bul != 2) {
+                condition3.await();
+            }
             System.out.print("third");
-
         } finally {
-
             lock.unlock();
         }
-
     }
 }
 
 class V {
     public static void main(String[] args) throws InterruptedException {
-
         Foo foo = new Foo(); // объект
-
         Thread B = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -104,30 +100,5 @@ class V {
         C.start();
         B.start();
         A.start();
-
-
-
     }
 }
-/*
-class Potok implements Runnable{
-    Foo foo = new Foo();
-    @Override
-    public void run() {
-        foo.first(this);
-    }
-}
-class Potok2 implements Runnable{
-    Foo foo = new Foo();
-    @Override
-    public void run() {
-        foo.second(this);
-    }
-}
-class Potok3 implements Runnable{
-    Foo foo = new Foo();
-    @Override
-    public void run() {
-        foo.third(this);
-    }
-}*/
