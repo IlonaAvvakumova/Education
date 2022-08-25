@@ -13,45 +13,121 @@ public class Foo {
         Вывод: "firstsecondthird"
         Мы не знаем, в каком порядке будут вызваны методы, но должны гарантировать порядок.*/
 
+import java.util.concurrent.locks.*;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Foo {
-    private int bul = 0;
-    private Lock lock= new ReentrantLock();
-    public  void first(Runnable r) {
-        while (bul!=0)
+   int bul = 0;
+    Lock lock = new ReentrantLock();
+   // Condition condition = lock.newCondition();
+    Condition condition2 = lock.newCondition();
+    Condition condition3 = lock.newCondition();
+
+    public void first(Runnable r) throws InterruptedException {
+        try {
+            lock.lock();
+            System.out.print("first");
+            bul=1;
+        } finally {
+            condition2.signal();
             lock.unlock();
-        System.out.print("first");
-        lock.lock();
-        bul = 1;
+        }
     }
-    public  void second(Runnable r)  {
-       while (bul!=1)
-           lock.unlock();
-        System.out.print("second");
-        lock.lock();
-        bul =2;
+
+    public void second(Runnable r) throws InterruptedException {
+        try {
+            lock.lock();
+            while (bul!=1){
+            condition2.await();}
+            System.out.print("second");
+            bul = 2;
+        } finally {
+            condition3.signal();
+            lock.unlock();
+        }
     }
-    public   void third(Runnable r)  {
-while (bul!=2)
-    lock.unlock();
-         System.out.print("third");
-        lock.lock();
+
+    public void third(Runnable r) throws InterruptedException {
+        try {
+            lock.lock();
+            while (bul!=2){
+            condition3.await();}
+            System.out.print("third");
+
+        } finally {
+
+            lock.unlock();
+        }
+
     }
 }
-class V{
-    public static void main(String[] args) throws InterruptedException {
-        Foo foo = new Foo(); // объект
-        Thread A = new Thread();
-               foo.first(A);
-        Thread B = new Thread();
-        foo.second(B);
 
-        Thread C = new Thread();
-        foo.third(C);
+class V {
+    public static void main(String[] args) throws InterruptedException {
+
+        Foo foo = new Foo(); // объект
+
+        Thread B = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    foo.second(this);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        Thread C = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    foo.third(this);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Thread A = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    foo.first(this);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         C.start();
         B.start();
         A.start();
-    }}
+
+
+
+    }
+}
+/*
+class Potok implements Runnable{
+    Foo foo = new Foo();
+    @Override
+    public void run() {
+        foo.first(this);
+    }
+}
+class Potok2 implements Runnable{
+    Foo foo = new Foo();
+    @Override
+    public void run() {
+        foo.second(this);
+    }
+}
+class Potok3 implements Runnable{
+    Foo foo = new Foo();
+    @Override
+    public void run() {
+        foo.third(this);
+    }
+}*/
