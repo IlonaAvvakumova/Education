@@ -1,4 +1,7 @@
 package src.main.java.com.IlonaA.javacore.Patterns.Factory;
+
+import src.main.java.com.IlonaA.javacore.Patterns.Factory.TypeCat.Cat;
+
 /*Реализовать паттерн Factory на примере рождения котиков*/
 public class Main {
     public static void main(String[] args) {

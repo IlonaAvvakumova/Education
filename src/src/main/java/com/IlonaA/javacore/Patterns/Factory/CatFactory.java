@@ -1,5 +1,10 @@
 package src.main.java.com.IlonaA.javacore.Patterns.Factory;
 
+import src.main.java.com.IlonaA.javacore.Patterns.Factory.TypeCat.BlackKitty;
+import src.main.java.com.IlonaA.javacore.Patterns.Factory.TypeCat.BrownKitty;
+import src.main.java.com.IlonaA.javacore.Patterns.Factory.TypeCat.Cat;
+import src.main.java.com.IlonaA.javacore.Patterns.Factory.TypeCat.WhiteKitty;
+
 public class CatFactory {
 
     private static Integer summaBrown=0;
