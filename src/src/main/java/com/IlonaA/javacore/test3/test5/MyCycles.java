@@ -9,7 +9,10 @@ public class MyCycles {
 
     public void cycleForExample(int interation, String str) {
         for (int i = 0; i < interation; i++) {
-ufunc.func(str);
+            if (ufunc.func(str) instanceof String) {
+                System.out.println("Все ок");
+            } else
+                System.out.println("Ошибка типа данных");
 
         }
 
